@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login with Yandex</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .yandex-login-button {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #ffcc00;
+            color: #000;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .yandex-login-button:hover {
+            background-color: #ffdd33;
+            transform: scale(1.05);
+        }
+
+        .yandex-login-button:active {
+            background-color: #ffaa00;
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login with Yandex</h1>
+        <p>Нажмите на кнопку ниже, чтобы войти с помощью Яндекс:</p>
+
+        <!-- Кастомная кнопка для авторизации -->
+        <a href="https://oauth.yandex.ru/authorize?response_type=code&client_id=3f4415711fea45f1b47ba1bc21f15416&redirect_uri=https://loving-beetle-sharing.ngrok-free.app/yandex/callback" 
+           class="yandex-login-button">
+            Войти с помощью Яндекс
+        </a>
+    </div>
+</body>
+</html>

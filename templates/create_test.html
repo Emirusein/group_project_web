@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать тест</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            margin-top: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Создать тест</h1>
+        <form id="testForm">
+            <label for="testName">Название теста:</label>
+            <input type="text" id="testName" name="testName" required>
+
+            <label for="questions">Вопросы (по одному на строку):</label>
+            <textarea id="questions" name="questions" rows="5" required></textarea>
+
+            <button type="button" onclick="submitTest()">Создать тест</button>
+        </form>
+    </div>
+
+    <script>
+        function submitTest() {
+            const testName = document.getElementById('testName').value;
+            const questions = document.getElementById('questions').value.split('\n');
+
+            fetch('/api/tests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: testName, questions: questions }),
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message || 'Тест успешно обработан!'))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
