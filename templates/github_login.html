@@ -1,0 +1,61 @@
+<!-- templates/github_login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login with GitHub</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .github-button {
+            display: inline-block;
+            padding: 12px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .github-button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login with GitHub</h1>
+        <p>Нажмите на кнопку ниже, чтобы войти с помощью GitHub:</p>
+        <a href="/github/login" class="github-button">Login with GitHub</a>
+    </div>
+</body>
+</html>

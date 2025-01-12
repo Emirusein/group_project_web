@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прохождение теста: {{ .test.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #0056b3;
+        }
+
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Прохождение теста: {{ .test.name }}</h1>
+    <form id="test-form">
+        {{range .test.questions}}
+        <div class="question">
+            <h3>{{ .questionText }}</h3>
+            {{range .options}}
+            <label>
+                <input type="radio" name="question_{{ $.Index }}" value="{{ . }}">{{ . }}
+            </label>
+            {{end}}
+        </div>
+        {{end}}
+        <button type="submit">Отправить ответы</button>
+    </form>
+
+    <script>
+        document.getElementById('test-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Предотвращаем отправку формы
+
+            const formData = new FormData(this);
+            const answers = {};
+
+            // Преобразуем FormData в объект
+            formData.forEach((value, key) => {
+                answers[key] = value;
+            });
+
+            // Отправляем данные на сервер
+            fetch(`/api/tests/submit`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ answers }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Ваши ответы успешно отправлены!');
+                    // Здесь можно добавить редирект на страницу с результатами или другую страницу
+                } else {
+                    alert('Что-то пошло не так. Попробуйте еще раз.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

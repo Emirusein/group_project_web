@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список тестов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .test {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .test h3 {
+            margin: 0;
+            font-size: 1.5em;
+            color: #0056b3;
+        }
+
+        .test p {
+            margin: 5px 0;
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #777;
+            margin-top: 50px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список тестов</h1>
+    <div id="test-list">
+        {{if .tests}}
+        {{range .tests}}
+        <div class="test" data-id="{{.ID}}">
+            <h3>{{.Name}}</h3>
+            <p>Создатель: {{.Creator}}</p>
+            <p>Количество вопросов: {{len .Questions}}</p>
+            <button class="begin-test-btn">Пройти тест</button>
+            <button class="delete-btn">Удалить</button>
+        </div>        
+        {{end}}
+        {{else}}
+        <p class="empty-message">Тестов нет</p>
+        {{end}}
+    </div>
+
+    <script>
+        document.querySelectorAll('.begin-test-btn').forEach(button => {
+            button.addEventListener('click', event => {
+                const testElement = event.target.closest('.test');
+                const testId = testElement.dataset.id;
+
+                // Направляем пользователя на страницу для прохождения теста
+                window.location.href = `/test/${testId}`;
+            });
+        });
+
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', event => {
+                const testElement = event.target.closest('.test');
+                const testId = testElement.dataset.id;
+
+                fetch(`/api/tests/${testId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        testElement.remove();
+                    } else {
+                        alert('Не удалось удалить тест');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

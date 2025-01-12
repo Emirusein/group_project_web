@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .auth-button {
+            display: inline-block;
+            width: 100%;
+            max-width: 300px;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .auth-button:hover {
+            transform: scale(1.05);
+        }
+
+        .auth-button:active {
+            transform: scale(0.95);
+        }
+
+        .yandex {
+            background-color: #ff0000;
+        }
+
+        .yandex:hover {
+            background-color: #cc0000;
+        }
+
+        .github {
+            background-color: #000000;
+        }
+
+        .github:hover {
+            background-color: #333333;
+        }
+
+        .code {
+            background-color: #808080;
+        }
+
+        .code:hover {
+            background-color: #666666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Выберите метод авторизации</h2>
+        <div class="auth-buttons">
+            <a href="/auth/yandex" class="auth-button yandex">Авторизоваться через Яндекс ID</a>
+            <a href="/auth/github" class="auth-button github">Авторизоваться через GitHub</a>
+            <a href="/request_code" class="auth-button code">Авторизоваться по коду</a>
+        </div>
+    </div>
+</body>
+</html>

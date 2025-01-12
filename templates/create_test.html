@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать тест</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+        label, input, textarea, button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        input[type="text"] {
+            height: 40px; /* Увеличенная высота для полей */
+            font-size: 16px; /* Увеличенный шрифт */
+        }
+        button {
+            margin-top: 15px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .questions-container {
+            margin-top: 15px;
+        }
+        .question {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .answers-container {
+            margin-top: 10px;
+        }
+        .answer {
+            display: flex;
+            align-items: center;
+            margin-top: 5px; /* Отступ между вариантами */
+        }
+        .answer input {
+            flex: 1;
+            height: 40px; /* Увеличенная высота для ввода вариантов */
+            margin-right: 5px;
+            font-size: 16px;
+        }
+        .answer button {
+            height: 40px; /* Соответствие высоте поля ввода */
+            width: 40px;
+            background-color: #dc3545;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .answer button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Создать тест</h1>
+        <form id="testForm">
+            <label for="testName">Название теста:</label>
+            <input type="text" id="testName" name="testName" required>
+
+            <div id="questionsContainer" class="questions-container">
+                <!-- Вопросы добавляются сюда -->
+            </div>
+            <button type="button" onclick="addQuestion()">Добавить вопрос</button>
+            <button type="button" onclick="submitTest()">Создать тест</button>
+        </form>
+    </div>
+
+    <script>
+        function addQuestion() {
+            const container = document.getElementById('questionsContainer');
+
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question';
+
+            const questionInput = document.createElement('input');
+            questionInput.type = 'text';
+            questionInput.name = 'question';
+            questionInput.placeholder = 'Введите вопрос';
+            questionInput.required = true;
+
+            const answersContainer = document.createElement('div');
+            answersContainer.className = 'answers-container';
+
+            const addAnswerButton = document.createElement('button');
+            addAnswerButton.type = 'button';
+            addAnswerButton.textContent = 'Добавить вариант ответа';
+            addAnswerButton.onclick = () => addAnswer(answersContainer);
+
+            questionDiv.appendChild(questionInput);
+            questionDiv.appendChild(answersContainer);
+            questionDiv.appendChild(addAnswerButton);
+
+            container.appendChild(questionDiv);
+        }
+
+        function addAnswer(container) {
+            const answerDiv = document.createElement('div');
+            answerDiv.className = 'answer';
+
+            const answerInput = document.createElement('input');
+            answerInput.type = 'text';
+            answerInput.name = 'answer';
+            answerInput.placeholder = 'Введите вариант ответа';
+            answerInput.required = true;
+
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = '×';
+            removeButton.onclick = () => answerDiv.remove();
+
+            answerDiv.appendChild(answerInput);
+            answerDiv.appendChild(removeButton);
+            container.appendChild(answerDiv);
+        }
+
+        function submitTest() {
+            const testName = document.getElementById('testName').value;
+            const questions = [];
+
+            document.querySelectorAll('.question').forEach(questionDiv => {
+                const questionText = questionDiv.querySelector('input[name="question"]').value;
+                const answers = Array.from(questionDiv.querySelectorAll('input[name="answer"]'))
+                    .map(input => input.value);
+
+                questions.push({ question: questionText, answers: answers });
+            });
+
+            console.log("Отправляем данные на сервер:", { name: testName, questions });
+
+            fetch('/api/tests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: testName, questions: questions }),
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message || 'Тест успешно обработан!'))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
